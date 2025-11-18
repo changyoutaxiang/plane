@@ -18,6 +18,9 @@ export const WorkspaceEditionBadge = observer(() => {
   // platform
   const { isMobile } = usePlatformOS();
 
+  return null; // 隐藏 Community 按钮和付费弹窗
+
+  /* 原始代码：
   return (
     <>
       <PaidPlanUpgradeModal
@@ -38,4 +41,5 @@ export const WorkspaceEditionBadge = observer(() => {
       </Tooltip>
     </>
   );
+  */
 });

@@ -122,7 +122,7 @@ export const SidebarHelpSection: React.FC<WorkspaceHelpSectionProps> = observer(
           </CustomMenu>
         </div>
         <div className="w-full flex-grow px-0.5">
-          <WorkspaceEditionBadge />
+          {/* <WorkspaceEditionBadge /> */}
         </div>
         <div className="flex flex-shrink-0 items-center gap-1 justify-evenly">
           <Tooltip tooltipContent={`${isCollapsed ? "Expand" : "Hide"}`} isMobile={isMobile}>
