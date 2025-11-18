@@ -11,8 +11,6 @@ import { Breadcrumbs, Header } from "@plane/ui";
 import { BreadcrumbLink } from "@/components/common/breadcrumb-link";
 // hooks
 import { useHome } from "@/hooks/store/use-home";
-// local imports
-import { StarUsOnGitHubLink } from "./star-us-link";
 
 export const WorkspaceDashboardHeader = observer(() => {
   // plane hooks
@@ -47,7 +45,7 @@ export const WorkspaceDashboardHeader = observer(() => {
             <Shapes size={16} />
             <div className="hidden text-xs font-medium sm:hidden md:block">{t("home.manage_widgets")}</div>
           </Button>
-          {/* <StarUsOnGitHubLink /> */}
+          {/* Self-hosted builds hide the GitHub star CTA as it has no local value */}
         </Header.RightItem>
       </Header>
     </>
