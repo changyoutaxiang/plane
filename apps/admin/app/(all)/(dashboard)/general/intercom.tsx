@@ -1,13 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { observer } from "mobx-react";
-import useSWR from "swr";
-import { MessageSquare } from "lucide-react";
-import type { IFormattedInstanceConfiguration } from "@plane/types";
-import { ToggleSwitch } from "@plane/ui";
-// hooks
-import { useInstance } from "@/hooks/store";
+import { MessageSquare, Info } from "lucide-react";
 
 type TIntercomConfig = {
   isTelemetryEnabled: boolean;
@@ -15,39 +9,6 @@ type TIntercomConfig = {
 
 export const IntercomConfig: React.FC<TIntercomConfig> = observer((props) => {
   const { isTelemetryEnabled } = props;
-  // hooks
-  const { instanceConfigurations, updateInstanceConfigurations, fetchInstanceConfigurations } = useInstance();
-  // states
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-
-  // derived values
-  const isIntercomEnabled = isTelemetryEnabled
-    ? instanceConfigurations
-      ? instanceConfigurations?.find((config) => config.key === "IS_INTERCOM_ENABLED")?.value === "1"
-        ? true
-        : false
-      : undefined
-    : false;
-
-  const { isLoading } = useSWR(isTelemetryEnabled ? "INSTANCE_CONFIGURATIONS" : null, () =>
-    isTelemetryEnabled ? fetchInstanceConfigurations() : null
-  );
-
-  const initialLoader = isLoading && isIntercomEnabled === undefined;
-
-  const submitInstanceConfigurations = async (payload: Partial<IFormattedInstanceConfiguration>) => {
-    try {
-      await updateInstanceConfigurations(payload);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const enableIntercomConfig = () => {
-    submitInstanceConfigurations({ IS_INTERCOM_ENABLED: isIntercomEnabled ? "0" : "1" });
-  };
 
   return (
     <>
@@ -60,20 +21,20 @@ export const IntercomConfig: React.FC<TIntercomConfig> = observer((props) => {
           </div>
 
           <div className="grow">
-            <div className="text-sm font-medium text-custom-text-100 leading-5">Chat with us</div>
+            <div className="text-sm font-medium text-custom-text-100 leading-5">Chat with us (Intercom)</div>
             <div className="text-xs font-normal text-custom-text-300 leading-5">
-              Let your users chat with us via Intercom or another service. Toggling Telemetry off turns this off
-              automatically.
+              Intercom 功能已在代码层面全局禁用，此设置不再生效。
+            </div>
+            <div className="mt-2 flex items-center gap-2 text-xs text-custom-text-400">
+              <Info className="w-4 h-4" />
+              <span>To re-enable, modify intercom-provider.tsx</span>
             </div>
           </div>
 
           <div className="ml-auto">
-            <ToggleSwitch
-              value={isIntercomEnabled ? true : false}
-              onChange={enableIntercomConfig}
-              size="sm"
-              disabled={!isTelemetryEnabled || isSubmitting || initialLoader}
-            />
+            <div className="px-3 py-1 text-xs font-medium rounded bg-custom-background-90 text-custom-text-400">
+              已禁用 (全局)
+            </div>
           </div>
         </div>
       </div>

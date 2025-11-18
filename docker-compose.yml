@@ -145,6 +145,8 @@ services:
     image: minio/minio
     restart: always
     command: server /export --console-address ":9090"
+    ports:
+      - "127.0.0.1:9000:9000"
     volumes:
       - uploads:/export
     environment:

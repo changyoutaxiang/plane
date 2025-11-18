@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { observer } from "mobx-react";
-import { HelpCircle, MessagesSquare, User } from "lucide-react";
+import { HelpCircle, User } from "lucide-react";
 import { useTranslation } from "@plane/i18n";
 import { PageIcon } from "@plane/propel/icons";
 // ui
@@ -13,9 +13,7 @@ import { cn } from "@plane/utils";
 import { ProductUpdatesModal } from "@/components/global";
 // helpers
 // hooks
-import { useInstance } from "@/hooks/store/use-instance";
 import { usePowerK } from "@/hooks/store/use-power-k";
-import { useTransient } from "@/hooks/store/use-transient";
 import { usePlatformOS } from "@/hooks/use-platform-os";
 // plane web components
 import { PlaneVersionNumber } from "@/plane-web/components/global";
@@ -29,15 +27,9 @@ export const HelpMenu: React.FC<WorkspaceHelpSectionProps> = observer(() => {
   const { t } = useTranslation();
   const { toggleShortcutsListModal } = usePowerK();
   const { isMobile } = usePlatformOS();
-  const { config } = useInstance();
-  const { isIntercomToggle, toggleIntercom } = useTransient();
   // states
   const [isNeedHelpOpen, setIsNeedHelpOpen] = useState(false);
   const [isProductUpdatesModalOpen, setProductUpdatesModalOpen] = useState(false);
-
-  const handleCrispWindowShow = () => {
-    toggleIntercom(!isIntercomToggle);
-  };
 
   return (
     <>
@@ -73,18 +65,6 @@ export const HelpMenu: React.FC<WorkspaceHelpSectionProps> = observer(() => {
               <span className="text-xs">{t("documentation")}</span>
             </div>
           </CustomMenu.MenuItem>
-          {config?.intercom_app_id && config?.is_intercom_enabled && (
-            <CustomMenu.MenuItem>
-              <button
-                type="button"
-                onClick={handleCrispWindowShow}
-                className="flex w-full items-center gap-x-2 rounded text-xs hover:bg-custom-background-80"
-              >
-                <MessagesSquare className="h-3.5 w-3.5 text-custom-text-200" />
-                <span className="text-xs">{t("message_support")}</span>
-              </button>
-            </CustomMenu.MenuItem>
-          )}
           <CustomMenu.MenuItem onClick={() => window.open("mailto:sales@plane.so", "_blank", "noopener,noreferrer")}>
             <div className="flex items-center gap-x-2 rounded text-xs hover:bg-custom-background-80">
               <User className="h-3.5 w-3.5 text-custom-text-200" size={14} />
